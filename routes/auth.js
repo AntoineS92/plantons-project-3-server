@@ -7,10 +7,11 @@ const salt = 10;
 
 router.post("/signin", (req, res, next) => {
   const { email, password } = req.body;
+  console.log(email);
   User.findOne({ email })
     .then((userDocument) => {
       if (!userDocument) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(400).json({ message: "Invalid email" });
       }
 
       const isValidPassword = bcrypt.compareSync(
@@ -18,7 +19,7 @@ router.post("/signin", (req, res, next) => {
         userDocument.password
       );
       if (!isValidPassword) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(400).json({ message: "Invalid password" });
       }
 
       req.session.currentUser = {
@@ -46,8 +47,7 @@ router.post("/signup", (req, res, next) => {
       User.create(newUser)
         .then((newUserDocument) => {
           /* Login on signup */
-          req.session.currentUser = newUserDocument._id;
-          res.redirect("/api/auth/isLoggedIn");
+          res.status(201).json({message: "success"});
         })
         .catch(next);
     })
@@ -58,7 +58,7 @@ router.get("/isLoggedIn", (req, res, next) => {
   if (!req.session.currentUser)
     return res.status(401).json({ message: "Unauthorized" });
 
-  const id = req.session.currentUser;
+  const id = req.session.currentUser.id;
 
   User.findById(id)
     .select("-password")

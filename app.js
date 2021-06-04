@@ -45,8 +45,12 @@ app.use(
  */
 
 const authRouter = require("./routes/auth");
+const plantRouter = require("./routes/plant.routes");
+const varieteRouter = require("./routes/variete.routes");
 
 app.use("/api/auth", authRouter);
+app.use("/api/plants", plantRouter);
+app.use("/api/variete", varieteRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {

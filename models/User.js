@@ -7,7 +7,8 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   lastName: String,
   firstName: String,
-  phoneNumber: String,
+
+  favoris: [{type: Schema.Types.ObjectId, ref: "Plant"}]
 });
 
 const User = mongoose.model("User", userSchema);
