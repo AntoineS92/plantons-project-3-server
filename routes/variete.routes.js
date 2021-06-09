@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Variete = require("../models/Variete");
+const PlantModel = require("../models/Plant");
 const { route } = require("./auth");
 
 //show the list of all the Variete
@@ -27,7 +28,7 @@ router.get("/:id", (req, res, next) => {
 });
 
 // update a single variete
-router.post("/update/:id", (req, res, next) => {
+router.patch("/update/:id", (req, res, next) => {
   Variete.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((variete) => {
       res.status(200).json(variete);
@@ -39,9 +40,29 @@ router.post("/update/:id", (req, res, next) => {
 
 //create a new variete
 router.post("/create", (req, res, next) => {
-  Variete.create(req.body)
-    .then((variete) => {
-      res.status(201).json(variete);
+  const newVariete = {
+    name: req.body.name,
+    origine: req.body.origine,
+    ancienne: req.body.ancienne,
+    ajoute: false,
+  };
+
+  const plantId = req.body.plantId;
+
+  Variete.create(newVariete)
+    .then((newVariete) => {
+      PlantModel.findByIdAndUpdate(
+        plantId,
+        { $push: { variete: newVariete._id } },
+        { new: true }
+      )
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      res.status(201).json(newVariete);
     })
     .catch((err) => {
       console.log(err);
@@ -51,7 +72,7 @@ router.post("/create", (req, res, next) => {
 //delete a variete
 router.delete("/delete/:id", (req, res, next) => {
   Variete.findByIdAndDelete(req.params.id)
-  .then((deletedItem) => {
+    .then((deletedItem) => {
       res.sendStatus(204);
     })
     .catch((err) => {

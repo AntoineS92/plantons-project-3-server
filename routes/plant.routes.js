@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const Plants = require("../models/Plant");
+const Variete = require("../models/Variete")
 const { route } = require("./auth");
 
 //show the list of all the plants
 router.get("/", (req, res, next) => {
-  Plants.find()
+  Plants.find().populate("variete associtationPos associtationNeg")
     .then((plantDocs) => {
       res.status(200).json(plantDocs);
     })
@@ -17,7 +18,8 @@ router.get("/", (req, res, next) => {
 
 //show a single plant
 router.get("/:id", (req, res, next) => {
-  Plants.findById(req.params.id)
+
+  Plants.findById(req.params.id).populate("variete")
     .then((plant) => {
       res.status(200).json(plant);
     })
@@ -27,9 +29,11 @@ router.get("/:id", (req, res, next) => {
 });
 
 // update a single plant
-router.post("/update/:id", (req, res, next) => {
+router.patch("/update/:id", (req, res, next) => {
+  console.log("HBEUOIJHBFC", req.body)
   Plants.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((plant) => {
+      console.log("IOHEOF", plant)
       res.status(200).json(plant);
     })
     .catch((err) => {

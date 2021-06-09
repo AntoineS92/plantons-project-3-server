@@ -56,7 +56,7 @@ app.use("/api/variete", varieteRouter);
 app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
-  next(err);
+  next(error);
 });
 
 // Error handler middleware

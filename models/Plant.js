@@ -6,7 +6,7 @@ const plantSchema = new Schema({
   famBotanique: String,
   nomLatin: String,
   type: [String],
-  image: {type: String, default: "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a"},
+  image: {type: String, default: "https://www.coloriageetdessins.com/images/nature/l-eacute-gume/legumes-sur-table-18367-660x400.jpg"},
   tailleFoliaire: [String],
   tailleRacine: [String],
   preferences: { sol: [String], soleil: String },

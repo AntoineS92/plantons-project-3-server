@@ -47,7 +47,7 @@ router.post("/signup", (req, res, next) => {
       User.create(newUser)
         .then((newUserDocument) => {
           /* Login on signup */
-          res.status(201).json({message: "success"});
+          res.status(201).json({ message: "success" });
         })
         .catch(next);
     })
@@ -66,6 +66,18 @@ router.get("/isLoggedIn", (req, res, next) => {
       res.status(200).json(userDocument);
     })
     .catch(next);
+});
+
+router.patch("/updateProfile/:id", (req, res, next) => {
+  const { email, password, firstName, lastName } = req.body;
+
+  User.findByIdAndUpdate(req.params.id, profileToUpdate)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 router.get("/logout", (req, res, next) => {

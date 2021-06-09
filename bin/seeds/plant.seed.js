@@ -8,8 +8,7 @@ const plants = [
     famBotanique: "solanacées",
     nomLatin: "solanum melongena L.",
     type: ["legume fruit"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:"",
     tailleFoliaire: ["50cm", "100cm"],
     tailleRacine: ["120-180cm"],
     preferences: {
@@ -21,17 +20,16 @@ const plants = [
     maladies: ["pourriture grise", "verticilliose"],
     parasites: ["araignée rouge", "doryphore", "mouche blanche", "puceron"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [],
   },
   {
     name: "carotte",
     famBotanique: "apiacées",
     nomLatin: "daucus carota L.",
     type: ["legume racine"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image: "",
     tailleFoliaire: ["50cm"],
     tailleRacine: ["> 180cm"],
     preferences: {
@@ -56,17 +54,16 @@ const plants = [
     ],
     parasites: ["mouche de la carotte", "vers terricoles"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: ["60ba3954fc8f1141581e24ad"],
   },
   {
     name: "ail",
     famBotanique: "alliacées",
     nomLatin: "allium sativum L.",
     type: ["legume bulbe"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:,
     tailleFoliaire: ["50cm", "100cm"],
     tailleRacine: ["< 100cm"],
     preferences: { sol: ["leger", "meuble", "profond"], soleil: "ensoleillé" },
@@ -75,17 +72,16 @@ const plants = [
     maladies: ["rouille de l'ail", "mildiou de l'oignon", "pourriture blanche"],
     parasites: ["mouche de l'oignon"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [],
   },
   {
     name: "haricot",
     famBotanique: "fabacées",
     nomLatin: "phasoleus vulgaris L.",
     type: ["legume gousse", "graine"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:,
     tailleFoliaire: ["< 50cm", "> 100cm"],
     tailleRacine: ["< 120cm"],
     preferences: { sol: ["meuble", "leger", "fertile"], soleil: "ensoleillée" },
@@ -101,17 +97,16 @@ const plants = [
     ],
     parasites: ["bruche du haricot à grain", "pucerons", "araignée rouge"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [],
   },
   {
     name: "laitue",
     famBotanique: "astracées",
     nomLatin: "latuca sativa L.",
     type: ["legume feuille"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:,
     tailleFoliaire: ["< 50cm"],
     tailleRacine: ["< 120cm"],
     preferences: { sol: ["frais", "fertile", "meuble"], soleil: "ensoleillée" },
@@ -136,17 +131,20 @@ const plants = [
     ],
     parasites: ["escargots", "limaces", "noctuelle de la laitue", "pucerons"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [
+      "60ba3954fc8f1141581e24ac",
+      "60ba3954fc8f1141581e24af",
+      "60be15f937236c4f24fea84f",
+    ],
   },
   {
     name: "maïs",
     famBotanique: "poacées",
     nomLatin: "zea mays L.",
     type: ["legume graine"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:,
     tailleFoliaire: ["> 100cm"],
     tailleRacine: ["120cm", "180cm"],
     preferences: { sol: ["profond", "fertile"], soleil: "ensoleillée" },
@@ -159,17 +157,16 @@ const plants = [
       "pyrale du maïs",
     ],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [],
   },
   {
     name: "tomate",
     famBotanique: "solanacée",
     nomLatin: "lycopersion esculentum L.",
     type: ["legume fruit"],
-    image:
-      "https://img-premium.flaticon.com/png/512/2329/2329865.png?token=exp=1622801839~hmac=b8aaec6556a72878328e05539ea4666a",
+    // image:,
     tailleFoliaire: ["> 100cm"],
     tailleRacine: ["120cm", "180cm"],
     preferences: {
@@ -187,13 +184,19 @@ const plants = [
     ],
     parasites: ["pucerons", "aleurodes"],
 
-    associationPos: null,
-    associationNeg: null,
-    variete: null,
+    associationPos: [],
+    associationNeg: [],
+    variete: [
+      "60ba3954fc8f1141581e24a9",
+      "60ba3954fc8f1141581e24aa",
+      "60ba3954fc8f1141581e24ab",
+      "60ba3954fc8f1141581e24ae",
+    ],
   },
 ];
 
-PlantModel.collection.drop()
+PlantModel.collection
+  .drop()
   .then(() => {
     PlantModel.insertMany(plants).then((dbSuccess) => {
       console.log(
