@@ -68,16 +68,14 @@ const varietes = [
   },
 ];
 
-VarieteModel.collection.drop()
-  .then(() => {
-    VarieteModel.insertMany(varietes).then((dbSuccess) => {
+(async () => {
+  await VarieteModel.collection.drop().catch((error) => {});
+
+  VarieteModel.insertMany(varietes)
+    .then((dbSuccess) => {
       console.log(
         `seed varietes done : ${dbSuccess.length} documents inserted in database !`
       );
-    });
-  })
-  .catch((dbErr) => {
-    console.log(dbErr);
-  });
-
-  VarieteModel.insertMany(varietes);
+    })
+    .catch((error) => console.log(error));
+})();

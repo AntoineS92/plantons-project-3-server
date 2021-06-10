@@ -195,17 +195,13 @@ const plants = [
   },
 ];
 
-PlantModel.collection
-  .drop()
-  .then(() => {
-    PlantModel.insertMany(plants).then((dbSuccess) => {
+(async () => {
+  await PlantModel.collection.drop().catch((err) => {});
+  PlantModel.insertMany(plants)
+    .then((dbSuccess) => {
       console.log(
         `seed plants done : ${dbSuccess.length} documents inserted in database !`
       );
-    });
-  })
-  .catch((dbErr) => {
-    console.log(dbErr);
-  });
-
-PlantModel.insertMany(plants);
+    })
+    .catch((error) => console.log(error));
+})();
