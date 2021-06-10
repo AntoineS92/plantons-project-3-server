@@ -59,24 +59,10 @@ if (_DEV_MODE) {
   });
 }
 
-app.use("/api/*", (req, res, next) => {
-  const error = new Error("Ressource not found.");
-  error.status = 404;
-  next(error);
+app.use(function (req, res, next) {
+  console.log("User in session =>", req.session.currentUser);
+  next();
 });
-
-if (process.env.NODE_ENV === "production") {
-  app.use("*", (req, res, next) => {
-    // If no routes match, send them the React HTML.
-    res.sendFile(path.join(__dirname, "public/build/index.html"));
-  });
-}
-
-// // Test to see if user is logged In before getting into any router.
-// app.use(function (req, res, next) {
-//   console.log("User in session =>", req.session.currentUser);
-//   next();
-// });
 
 /**
  * Routes
@@ -92,11 +78,21 @@ app.use("/api/variete", varieteRouter);
 app.use("/api/users", require("./routes/users"));
 
 // 404 Middleware
-app.use((req, res, next) => {
+app.use("/api/*", (req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
   next(error);
 });
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(path.join(__dirname, "public/build/index.html"));
+  });
+}
+
+// Test to see if user is logged In before getting into any router.
+
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
