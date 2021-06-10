@@ -23,7 +23,7 @@ router.post("/signin", (req, res, next) => {
       }
 
       req.session.currentUser = {
-        role: "admin",
+        role: userDocument.role,
         id: userDocument._id,
       };
 
@@ -33,7 +33,7 @@ router.post("/signin", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, firstName, lastName, role } = req.body;
 
   User.findOne({ email })
     .then((userDocument) => {
@@ -42,12 +42,18 @@ router.post("/signup", (req, res, next) => {
       }
 
       const hashedPassword = bcrypt.hashSync(password, salt);
-      const newUser = { email, lastName, firstName, password: hashedPassword };
+      const newUser = {
+        email,
+        lastName,
+        firstName,
+        role,
+        password: hashedPassword,
+      };
 
       User.create(newUser)
         .then((newUserDocument) => {
           /* Login on signup */
-          res.status(201).json({ message: "success" });
+          res.status(201).json({ newUserDocument });
         })
         .catch(next);
     })
@@ -55,6 +61,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.get("/isLoggedIn", (req, res, next) => {
+  console.log(req.session.currentUser);
   if (!req.session.currentUser)
     return res.status(401).json({ message: "Unauthorized" });
 
@@ -69,10 +76,11 @@ router.get("/isLoggedIn", (req, res, next) => {
 });
 
 router.patch("/updateProfile/:id", (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+  // const { email, password, firstName, lastName } = req.body;
 
-  User.findByIdAndUpdate(req.params.id, profileToUpdate)
+  User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((res) => {
+      res.status(200).json(res);
       console.log(res);
     })
     .catch((err) => {

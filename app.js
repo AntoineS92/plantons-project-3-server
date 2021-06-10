@@ -6,6 +6,7 @@ const path = require("path");
 const logger = require("morgan");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const _DEV_MODE = false;
 
 const cors = require("cors");
 
@@ -34,18 +35,42 @@ app.use(
   })
 );
 
-app.use("/api/*", (req, res, next) => {  
-  const error = new Error("Ressource not found.");
-  error.status = 404;
-  next(error);
+app.use((req, res, next) => {
+  console.log("User in session", req.session.currentUser);
+
+  next();
 });
 
-if (process.env.NODE_ENV === "production") {
-  app.use("*", (req, res, next) => {
-    // If no routes match, send them the React HTML.
-    res.sendFile(path.join(__dirname, "public/build/index.html"));
+if (_DEV_MODE) {
+  const User = require("./models/User");
+
+  app.use((req, res, next) => {
+    User.findOne({}) // Get a user from the DB (doesnt matter which)
+      .then((userDocument) => {
+        req.session.currentUser = userDocument._id; // Set that user as the loggedin user by putting him in the session.
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        // .finally() will be called no matter if the promise failed or succeeded so we can safely call our next function here.
+        next();
+      });
   });
 }
+
+// app.use("/api/*", (req, res, next) => {
+//   const error = new Error("Ressource not found.");
+//   error.status = 404;
+//   next(error);
+// });
+
+// if (process.env.NODE_ENV === "production") {
+//   app.use("*", (req, res, next) => {
+//     // If no routes match, send them the React HTML.
+//     res.sendFile(path.join(__dirname, "public/build/index.html"));
+//   });
+// }
 
 // // Test to see if user is logged In before getting into any router.
 // app.use(function (req, res, next) {
@@ -64,6 +89,7 @@ const varieteRouter = require("./routes/variete.routes");
 app.use("/api/auth", authRouter);
 app.use("/api/plants", plantRouter);
 app.use("/api/variete", varieteRouter);
+app.use("/api/users", require("./routes/users"));
 
 // 404 Middleware
 app.use((req, res, next) => {
