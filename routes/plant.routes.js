@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const uploader = require("./../config/cloudinary");
 
 const requireAuth = require("../middlewares/requireAuth");
 const Plants = require("../models/Plant");
-const Variete = require("../models/Variete");
-const { route } = require("./auth");
 
 //show the list of all the plants
 router.get("/", (req, res, next) => {
@@ -32,10 +31,8 @@ router.get("/:id", (req, res, next) => {
 
 // update a single plant
 router.patch("/update/:id", requireAuth, (req, res, next) => {
-  console.log("HBEUOIJHBFC", req.body);
   Plants.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((plant) => {
-      console.log("IOHEOF", plant);
       res.status(200).json(plant);
     })
     .catch((err) => {
@@ -44,8 +41,14 @@ router.patch("/update/:id", requireAuth, (req, res, next) => {
 });
 
 //create a new plant
-router.post("/create", requireAuth, (req, res, next) => {
-  Plants.create(req.body)
+router.post("/create", requireAuth, uploader.single("image"), (req, res, next) => {
+  
+  const newPlant = {... req.body};
+
+  if (!req.file) newPlant.image = undefined;
+  else newPlant.image = req.file.path;
+
+  Plants.create(newPlant)
     .then((plant) => {
       res.status(201).json(plant);
     })

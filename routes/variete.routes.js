@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const uploader = require("./../config/cloudinary");
+const requireAuth = require("../middlewares/requireAuth");
 
 const Variete = require("../models/Variete");
 const PlantModel = require("../models/Plant");
@@ -39,13 +41,18 @@ router.patch("/update/:id", (req, res, next) => {
 });
 
 //create a new variete
-router.post("/create", (req, res, next) => {
-  const newVariete = {
-    name: req.body.name,
-    origine: req.body.origine,
-    ancienne: req.body.ancienne,
-    ajoute: false,
-  };
+router.post("/create", requireAuth, uploader.single("image"), (req, res, next) => {
+  // const newVariete = {
+  //   name: req.body.name,
+  //   origine: req.body.origine,
+  //   ancienne: req.body.ancienne,
+  //   ajoute: false,
+  // };
+  console.log("reqfile !", req.file)
+  const newVariete = {...req.body};
+
+  if (!req.file) newVariete.image = undefined;
+  else newVariete.image = req.file.path;
 
   const plantId = req.body.plantId;
 
